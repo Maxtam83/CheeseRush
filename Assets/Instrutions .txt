@@ -1,0 +1,2 @@
+Ok sorry if its not working for everyone with the dynamic bones i sent a pic with what its supposed to look like 
+Just an FYI use the 2nd bone (whatever the name is) when doing the root bone otherwise it won't work 
