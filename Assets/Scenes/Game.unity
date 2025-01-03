@@ -2499,7 +2499,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1250680395278125426, guid: 53f47c2c6b3d51d4f99e68d5cd6b6ee1, type: 3}
       propertyPath: m_Name
-      value: Diamond
+      value: Trophy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192345404576668428, guid: 53f47c2c6b3d51d4f99e68d5cd6b6ee1, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6719819344000819787, guid: 53f47c2c6b3d51d4f99e68d5cd6b6ee1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3611,5 +3615,5 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 2090758268}
   - {fileID: 1514500945}
-  - {fileID: 2037191164}
   - {fileID: 1799539116}
+  - {fileID: 2037191164}
