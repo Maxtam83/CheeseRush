@@ -6,8 +6,10 @@ public class GameManager : MonoBehaviour
     // Instance statique pour un accès global
     public static GameManager Instance;
 
-    // Référence au texte dans le Canvas pour afficher le nombre de pièce collecté
+    // Référence au texte dans le Canvas pour l'affichage
     [SerializeField] private TMP_Text coinsText;
+    [SerializeField] private TMP_Text keyText;
+    [SerializeField] private TMP_Text TrophyText;
 
     private int coinsCollected = 0; 
 
@@ -31,9 +33,33 @@ public class GameManager : MonoBehaviour
         UpdateCoinsText();
     }
 
+    // Méthode pour quand on récupère la clé
+    public void KeyCollected()
+    {
+        UpdateKeyText();
+    }
+    
+    // Méthode pour quand on récupère le trophé
+    public void TrophyCollected()
+    {
+        UpdateTrophyText();
+    }
+
     // Met à jour le texte affiché dans le Canvas
     private void UpdateCoinsText()
     {
-        coinsText.text = "Coins: " + coinsCollected;
+        coinsText.text = "Coins : " + coinsCollected;
+    }
+
+    // Met à jour le texte affiché dans le Canvas
+    private void UpdateKeyText()
+    {
+        keyText.text = "key is collected : True";
+    }
+
+    // Met à jour le texte affiché dans le Canvas
+    private void UpdateTrophyText()
+    {
+        TrophyText.text = "trophy is collected : True";
     }
 }

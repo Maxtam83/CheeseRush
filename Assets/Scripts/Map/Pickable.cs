@@ -14,12 +14,11 @@ public class Pickable : MonoBehaviour
         {
             // cas ou on récupère le trophée
             if (gameObject.name == TrophyName)
-                // action fin
-                Debug.Log("TODO : Faire action de fin quand trophée récupéré");
-            
+                GameManager.Instance.TrophyCollected();
+
             // cas ou on récupère la clé
             else if (gameObject.name == KeyName)
-                Debug.Log("TODO : Faire action quand récupération de la clé");
+                GameManager.Instance.KeyCollected();
 
             // cas ou on récupère une pièce
             else
