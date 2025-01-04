@@ -10,8 +10,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text coinsText;
     [SerializeField] private TMP_Text keyText;
     [SerializeField] private TMP_Text TrophyText;
-
+    [SerializeField] private GameObject BarrelInfoGameObject;
+    
+    private TMP_Text BarrelInfoText;
     private int coinsCollected = 0; 
+    private bool collectedKey = false;
 
     private void Awake()
     {
@@ -24,7 +27,20 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        BarrelInfoText = BarrelInfoGameObject.GetComponent<TMP_Text>();
+        if (BarrelInfoText == null)
+        {
+            Debug.LogWarning("Aucun Texte trouvé sur le GameObject "+ BarrelInfoGameObject.name);
+        }
     }
+
+    // Getteur clé
+    public bool isKeyIsCollected()
+    {
+        return collectedKey;
+    }
+
 
     // Méthode pour ajouter une pièce
     public void AddCoin()
@@ -36,7 +52,14 @@ public class GameManager : MonoBehaviour
     // Méthode pour quand on récupère la clé
     public void KeyCollected()
     {
+        collectedKey = true;
         UpdateKeyText();
+    }
+
+    // Méthode pour quand l'utilisateur s'approche du tonneau et qu'il n'a pas la clé
+    public void SetActiveTextBarrelInfo(bool printed)
+    {
+        BarrelInfoGameObject.SetActive(printed);
     }
     
     // Méthode pour quand on récupère le trophé

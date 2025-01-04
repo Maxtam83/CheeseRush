@@ -35,12 +35,13 @@ public class Teleporter : MonoBehaviour
             Debug.LogWarning("Le joueur n'a pas de CharacterController !");
             return;
         }
+        
+        // lance le son
         StartCoroutine(PlaySound());
 
         // Désactive temporairement le CharacterController pour éviter des conflits
         playerController.enabled = false;
 
-        // lance le son
 
         // Téléporte le joueur
         playerController.transform.position = teleportOut.position + Vector3.up;
