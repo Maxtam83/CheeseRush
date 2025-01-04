@@ -464,7 +464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &292049675
 RectTransform:
   m_ObjectHideFlags: 0
@@ -692,7 +692,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 783333069852398496, guid: d4bca3013850fe2439dba9e65cc18189, type: 3}
       propertyPath: m_Name
-      value: Chest
+      value: Barrel
       objectReference: {fileID: 0}
     - target: {fileID: 1208372525180793182, guid: d4bca3013850fe2439dba9e65cc18189, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3529,6 +3529,7 @@ MonoBehaviour:
   coinsText: {fileID: 507009481}
   keyText: {fileID: 1801034477}
   TrophyText: {fileID: 481356466}
+  BarrelInfoGameObject: {fileID: 292049674}
 --- !u!4 &1799539116
 Transform:
   m_ObjectHideFlags: 0
@@ -3960,7 +3961,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b6baed89c25976542a6c0154ca4494f2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0d1bc19b6c11ad842986301818d55634, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
