@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAiTutorial : MonoBehaviour
@@ -10,7 +9,7 @@ public class EnemyAiTutorial : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
+    public float health = 100f; // Santé de l'ennemi
 
     //Patroling
     public Vector3 walkPoint;
@@ -56,6 +55,7 @@ public class EnemyAiTutorial : MonoBehaviour
         if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
     }
+    
     private void SearchWalkPoint()
     {
         //Calculate random point in range
@@ -92,6 +92,7 @@ public class EnemyAiTutorial : MonoBehaviour
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
+    
     private void ResetAttack()
     {
         alreadyAttacked = false;
@@ -103,9 +104,21 @@ public class EnemyAiTutorial : MonoBehaviour
 
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
+
     private void DestroyEnemy()
     {
         Destroy(gameObject);
+    }
+
+    // Cette fonction sera appelée lorsqu'un projectile touche l'ennemi
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerProjectile"))
+        {
+            // Si l'ennemi est touché par un projectile du joueur
+            int damage = 10; // Ajuste la valeur des dégâts ici
+            TakeDamage(damage);
+        }
     }
 
     private void OnDrawGizmosSelected()

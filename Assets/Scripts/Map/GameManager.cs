@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text coinsText;
     [SerializeField] private TMP_Text keyText;
     [SerializeField] private TMP_Text TrophyText;
+    [SerializeField] private TMP_Text WeaponText; // Ajout pour l'arme
     [SerializeField] private GameObject BarrelInfoGameObject;
     
     private TMP_Text BarrelInfoText;
-    private int coinsCollected = 0; 
+    private int coinsCollected = 0;
     private bool collectedKey = false;
+    private bool collectedShuriken = false; // Variable pour savoir si l'arme a été collectée
 
     private void Awake()
     {
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
         BarrelInfoText = BarrelInfoGameObject.GetComponent<TMP_Text>();
         if (BarrelInfoText == null)
         {
-            Debug.LogWarning("Aucun Texte trouvé sur le GameObject "+ BarrelInfoGameObject.name);
+            Debug.LogWarning("Aucun Texte trouvé sur le GameObject " + BarrelInfoGameObject.name);
         }
     }
 
@@ -41,6 +43,11 @@ public class GameManager : MonoBehaviour
         return collectedKey;
     }
 
+    // Getteur shuriken
+    public bool isShurikenCollected()
+    {
+        return collectedShuriken;
+    }
 
     // Méthode pour ajouter une pièce
     public void AddCoin()
@@ -56,17 +63,28 @@ public class GameManager : MonoBehaviour
         UpdateKeyText();
     }
 
-    // Méthode pour quand l'utilisateur s'approche du tonneau et qu'il n'a pas la clé
-    public void SetActiveTextBarrelInfo(bool printed)
-    {
-        BarrelInfoGameObject.SetActive(printed);
-    }
-    
-    // Méthode pour quand on récupère le trophé
+    // Méthode pour quand on récupère le trophée
     public void TrophyCollected()
     {
         UpdateTrophyText();
     }
+
+    // Méthode pour quand on récupère un Shuriken (arme)
+    public void WeaponCollected()
+{
+    collectedShuriken = true;
+
+    // Vérifie si WeaponText est assigné avant d'essayer de l'utiliser
+    if (WeaponText != null)
+    {
+        UpdateWeaponText(); // Met à jour le texte lié à l'arme
+    }
+    else
+    {
+        Debug.LogWarning("WeaponText n'est pas assigné dans GameManager.");
+    }
+}
+
 
     // Met à jour le texte affiché dans le Canvas
     private void UpdateCoinsText()
@@ -77,12 +95,24 @@ public class GameManager : MonoBehaviour
     // Met à jour le texte affiché dans le Canvas
     private void UpdateKeyText()
     {
-        keyText.text = "key is collected : True";
+        keyText.text = "Key is collected: True";
     }
 
     // Met à jour le texte affiché dans le Canvas
     private void UpdateTrophyText()
     {
-        TrophyText.text = "trophy is collected : True";
+        TrophyText.text = "Trophy is collected: True";
+    }
+
+    // Met à jour le texte affiché pour l'arme
+    private void UpdateWeaponText()
+    {
+        WeaponText.text = "Shuriken collected: True"; // Affiche l'arme comme collectée
+    }
+
+    // Méthode pour quand l'utilisateur s'approche du tonneau et qu'il n'a pas la clé
+    public void SetActiveTextBarrelInfo(bool printed)
+    {
+        BarrelInfoGameObject.SetActive(printed);
     }
 }
