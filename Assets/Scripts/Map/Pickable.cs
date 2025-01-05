@@ -8,6 +8,7 @@ public class Pickable : MonoBehaviour
     [SerializeField] private string ShurikenName = "Shuriken"; // Le nom de l'arme (Shuriken)
 
     private AudioSource audioSource;
+    private bool isPickedUp = false; // Flag pour vérifier si l'objet a déjà été ramassé
 
     private void Awake()
     {
@@ -21,9 +22,11 @@ public class Pickable : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Vérifie si l'objet entrant dans le trigger a le tag "Player"
-        if (other.CompareTag(playerTag))
+        // Vérifie si l'objet entrant dans le trigger a le tag "Player" et si l'objet n'a pas déjà été ramassé
+        if (other.CompareTag(playerTag) && !isPickedUp)
         {
+            isPickedUp = true; // Marque l'objet comme ramassé
+
             // Cas où on récupère le trophée
             if (gameObject.name == TrophyName)
                 GameManager.Instance.TrophyCollected();
