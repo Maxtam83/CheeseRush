@@ -42,7 +42,14 @@ public class Pickable : MonoBehaviour
 
             // Cas où on récupère un shuriken (arme)
             else if (gameObject.name == ShurikenName)
+            {
                 GameManager.Instance.WeaponCollected();
+                WeaponController weaponController = other.GetComponent<WeaponController>();
+                if (weaponController != null)
+                {
+                    weaponController.CollectShuriken();
+                }
+            }
 
             // Cas où on récupère une pièce
             else
@@ -62,12 +69,12 @@ public class Pickable : MonoBehaviour
                 collider.enabled = false;  // Désactive la détection de collision
             }
 
-            // Démarre la coroutine pour jouer le son et détruire l'objet
-            StartCoroutine(PlaySoundAndDestroy());
+            // Démarre la coroutine pour jouer le son
+            StartCoroutine(PlaySoundAndDisable());
         }
     }
 
-    private System.Collections.IEnumerator PlaySoundAndDestroy()
+    private System.Collections.IEnumerator PlaySoundAndDisable()
     {
         // Si un AudioSource est défini
         if (audioSource != null)
@@ -82,7 +89,7 @@ public class Pickable : MonoBehaviour
             Debug.LogWarning($"Aucun AudioSource trouvé sur {gameObject.name}. Aucun son ne sera joué.");
         }
 
-        // Détruire l'objet après la lecture du son (ou immédiatement si aucun son n'est joué)
-        Destroy(gameObject);
+        // Désactive l'objet après la lecture du son (ou immédiatement si aucun son n'est joué)
+        gameObject.SetActive(false);
     }
 }

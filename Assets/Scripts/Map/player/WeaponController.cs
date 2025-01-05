@@ -1,57 +1,63 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private GameObject shurikenPrefab; // Le prefab du shuriken
-    [SerializeField] private Transform throwPoint;      // Le point d'où le shuriken sera lancé
-    [SerializeField] private float throwForce = 10f;    // La force avec laquelle le shuriken sera lancé
+    public GameObject shurikenPrefab; // Préfab du shuriken
+    public Transform launchPoint;    // Point d'où le shuriken sera lancé
+    public float rotationSpeed = 500f; // Vitesse de rotation du shuriken autour du joueur
+    public float rotationDistance = 1f; // Distance de rotation du shuriken autour du joueur
 
-    private bool hasShuriken = false;                   // Si le joueur a collecté le shuriken
-    private GameObject currentShuriken;                 // Référence au shuriken collecté
+    private PlayerInputActions playerInputActions; // Référence à l'Action Map
+    private bool hasShuriken = false;             // Indique si le joueur possède un shuriken
+    private GameObject currentShuriken;           // Référence au shuriken instancié
+
+    private void Awake()
+    {
+        // Initialiser le système d'entrée
+        playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        // Activer l'action de lancement
+        playerInputActions.Player.Launch.performed += OnLaunch;
+        playerInputActions.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        // Désactiver l'action de lancement
+        playerInputActions.Player.Launch.performed -= OnLaunch;
+        playerInputActions.Player.Disable();
+    }
+
+    // Méthode appelée lorsqu'un shuriken est récupéré
+    public void CollectShuriken()
+    {
+        if (!hasShuriken)
+        {
+            hasShuriken = true;
+            Debug.Log("Shuriken récupéré !");
+            // Instancier le shuriken à une position plus proche du joueur
+            Vector3 initialPosition = transform.position + transform.forward * rotationDistance;
+            currentShuriken = Instantiate(shurikenPrefab, initialPosition, Quaternion.identity);
+            currentShuriken.transform.SetParent(transform); // Attacher le shuriken au joueur
+        }
+    }
 
     private void Update()
     {
-        // Vérifie si le joueur a collecté l'arme et appuie sur "X" ou tout autre mécanisme d'entrée
-        if (hasShuriken && Input.GetKeyDown(KeyCode.X)) 
+        if (hasShuriken && currentShuriken != null)
         {
-             Debug.Log("Touche X");
-            LaunchShuriken();
+            // Faire tourner le shuriken autour du joueur à une distance spécifiée
+            currentShuriken.transform.RotateAround(transform.position, Vector3.up, rotationSpeed * Time.deltaTime);
         }
     }
 
-    // Cette méthode sera appelée par GameManager lorsque le joueur collecte l'arme
-    public void CollectShuriken()
+    // Méthode appelée lorsqu'on appuie sur la touche de lancement
+    private void OnLaunch(InputAction.CallbackContext context)
     {
-        if (!hasShuriken) // Si le joueur n'a pas déjà collecté un shuriken
-        {
-            hasShuriken = true;
-
-            // Crée une instance du shuriken à la position du joueur (throwPoint)
-            currentShuriken = Instantiate(shurikenPrefab, throwPoint.position, throwPoint.rotation);
-
-            // Assure-toi que le Shuriken est prêt à être lancé (visible ou non)
-            currentShuriken.SetActive(true); // Peut être ajusté selon le besoin
-        }
-    }
-
-    // Lancer le shuriken
-    private void LaunchShuriken()
-    {
-        if (currentShuriken != null && throwPoint != null)
-        {
-            Rigidbody rb = currentShuriken.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                // Applique une force pour lancer le shuriken
-                rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
-            }
-
-            // Désactive le Shuriken après son lancement et réinitialise la variable
-            currentShuriken.SetActive(false);
-            hasShuriken = false;  // Le joueur n'a plus de shuriken pour l'instant
-
-            // Réinitialise la référence du shuriken
-            currentShuriken = null;
-        }
+        // Vous pouvez ajouter une fonctionnalité supplémentaire ici si nécessaire
     }
 }
