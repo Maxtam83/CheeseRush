@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
-    public float damage = 10f;
+    public float damage = 1f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,6 +12,7 @@ public class EnemyProjectile : MonoBehaviour
             Killable player = other.GetComponent<Killable>();
             if (player != null)
             {
+                Debug.Log("Projectile a touché le joueur.");
                 player.TakeDamage(damage); // Infliger des dégâts au joueur
             }
             
