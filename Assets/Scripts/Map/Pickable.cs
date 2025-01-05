@@ -6,6 +6,8 @@ public class Pickable : MonoBehaviour
     [SerializeField] private string TrophyName = "Trophy"; // Le nom du Trophée
     [SerializeField] private string KeyName = "Key";    // Le nom de la clé
     [SerializeField] private string ShurikenName = "Shuriken"; // Le nom de l'arme (Shuriken)
+    [SerializeField] private GameObject Player;
+
 
     private AudioSource audioSource;
     private bool isPickedUp = false; // Flag pour vérifier si l'objet a déjà été ramassé
@@ -29,7 +31,10 @@ public class Pickable : MonoBehaviour
 
             // Cas où on récupère le trophée
             if (gameObject.name == TrophyName)
+            {
                 GameManager.Instance.TrophyCollected();
+                Destroy(Player);
+            }
 
             // Cas où on récupère la clé
             else if (gameObject.name == KeyName)

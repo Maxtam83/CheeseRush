@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text TrophyText;
     [SerializeField] private TMP_Text WeaponText; // Ajout pour l'arme
     [SerializeField] private GameObject BarrelInfoGameObject;
-    
+    [SerializeField] private GameObject WinView;
+    [SerializeField] private GameObject LoseView;
+    [SerializeField] private GameObject MenuView;
+    [SerializeField] private GameObject MainMenuButton;
+
     private TMP_Text BarrelInfoText;
     private int coinsCollected = 0;
     private bool collectedKey = false;
@@ -66,25 +71,48 @@ public class GameManager : MonoBehaviour
     // Méthode pour quand on récupère le trophée
     public void TrophyCollected()
     {
+        PutWindView(true);
         UpdateTrophyText();
     }
 
     // Méthode pour quand on récupère un Shuriken (arme)
     public void WeaponCollected()
-{
-    collectedShuriken = true;
-
-    // Vérifie si WeaponText est assigné avant d'essayer de l'utiliser
-    if (WeaponText != null)
     {
-        UpdateWeaponText(); // Met à jour le texte lié à l'arme
-    }
-    else
-    {
-        Debug.LogWarning("WeaponText n'est pas assigné dans GameManager.");
-    }
-}
+        collectedShuriken = true;
 
+        // Vérifie si WeaponText est assigné avant d'essayer de l'utiliser
+        if (WeaponText != null)
+        {
+            UpdateWeaponText(); // Met à jour le texte lié à l'arme
+        }
+        else
+        {
+            Debug.LogWarning("WeaponText n'est pas assigné dans GameManager.");
+        }
+    }
+
+    public void BackToMainMenu()
+    {
+        Debug.Log("retour menu jeux");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Menu");
+    }
+
+    public void PutLoseView(bool put)
+    {
+        LoseView.SetActive(put);
+        MainMenuButton.SetActive(put);
+    }
+
+    public void PutWindView(bool put)
+    {
+        WinView.SetActive(put);
+        MainMenuButton.SetActive(put);
+    }
+
+    public void PutMenuView()
+    {
+        // TODO lose wiews
+    }
 
     // Met à jour le texte affiché dans le Canvas
     private void UpdateCoinsText()

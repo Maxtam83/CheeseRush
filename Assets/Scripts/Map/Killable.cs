@@ -53,7 +53,7 @@ public class Killable : MonoBehaviour
         {
             OnDie.Invoke();
         }
-
+        GameManager.Instance.PutLoseView(true);
         Destroy(gameObject);
     }
 
