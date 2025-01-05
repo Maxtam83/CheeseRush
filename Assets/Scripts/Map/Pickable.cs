@@ -20,45 +20,44 @@ public class Pickable : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-{
-    // Vérifie si l'objet entrant dans le trigger a le tag "Player"
-    if (other.CompareTag(playerTag))
     {
-        // Cas où on récupère le trophée
-        if (gameObject.name == TrophyName)
-            GameManager.Instance.TrophyCollected();
-
-        // Cas où on récupère la clé
-        else if (gameObject.name == KeyName)
-            GameManager.Instance.KeyCollected();
-
-        // Cas où on récupère un shuriken (arme)
-        else if (gameObject.name == ShurikenName)
-            GameManager.Instance.WeaponCollected();
-
-        // Cas où on récupère une pièce
-        else
-            GameManager.Instance.AddCoin();
-
-        // Cache le Renderer de l'objet (pour le rendre invisible)
-        Renderer renderer = GetComponentInChildren<MeshRenderer>();
-        if (renderer != null)
+        // Vérifie si l'objet entrant dans le trigger a le tag "Player"
+        if (other.CompareTag(playerTag))
         {
-            renderer.enabled = false;  // Rendre l'objet invisible
-        }
+            // Cas où on récupère le trophée
+            if (gameObject.name == TrophyName)
+                GameManager.Instance.TrophyCollected();
 
-        // Désactive le collider pour empêcher d'interagir à nouveau avec l'objet
-        Collider collider = GetComponent<Collider>();
-        if (collider != null)
-        {
-            collider.enabled = false;  // Désactive la détection de collision
-        }
+            // Cas où on récupère la clé
+            else if (gameObject.name == KeyName)
+                GameManager.Instance.KeyCollected();
 
-        // Ne détruit pas l'objet, mais le rend inactif pour que le joueur puisse le récupérer
-        gameObject.SetActive(false);  // Désactive l'objet, mais il reste dans la scène
+            // Cas où on récupère un shuriken (arme)
+            else if (gameObject.name == ShurikenName)
+                GameManager.Instance.WeaponCollected();
+
+            // Cas où on récupère une pièce
+            else
+                GameManager.Instance.AddCoin();
+
+            // Cache le Renderer de l'objet (pour le rendre invisible)
+            Renderer renderer = GetComponentInChildren<MeshRenderer>();
+            if (renderer != null)
+            {
+                renderer.enabled = false;  // Rendre l'objet invisible
+            }
+
+            // Désactive le collider pour empêcher d'interagir à nouveau avec l'objet
+            Collider collider = GetComponent<Collider>();
+            if (collider != null)
+            {
+                collider.enabled = false;  // Désactive la détection de collision
+            }
+
+            // Démarre la coroutine pour jouer le son et détruire l'objet
+            StartCoroutine(PlaySoundAndDestroy());
+        }
     }
-}
-
 
     private System.Collections.IEnumerator PlaySoundAndDestroy()
     {
